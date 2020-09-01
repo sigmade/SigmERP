@@ -14,10 +14,10 @@
 
 
 <p>
-    <a asp-action="Create">Создать</a>
+    <a asp-action="Create" class="btn btn btn-success">+ Добавить</a>
 </p>
 
-<table class="table">
+<table class="table table-striped print">
     <thead>
         <tr>
             <th>
@@ -46,9 +46,11 @@
                     @Html.DisplayFor(modelItem => item.Role.Id)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Править</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Детали</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Подробно</a>
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Править</a>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    </div>
                 </td>
             </tr>
         }
