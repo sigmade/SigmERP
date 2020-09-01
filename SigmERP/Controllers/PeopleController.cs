@@ -21,38 +21,17 @@ namespace SigmERP.Controllers
 
         // GET: People
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string searchString)
         {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "id";
-            ViewData["CurrentFilter"] = searchString;
+            var person = from m in _context.Person
+                         select m;
 
-            var people = from s in _context.Person
-                           select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                people = people.Where(s => s.Name.Contains(searchString)
-                                       || s.Id.Contains(searchString));
+                person = person.Where(s => s.Name.Contains(searchString));
             }
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    people = people.OrderByDescending(s => s.Name);
-                    break;
-                case "id":
-                    people = people.OrderBy(s => s.Id);
-                    break;
-                case "id_desc":
-                    people = people.OrderByDescending(s => s.Id);
-                    break;
-
-                default:
-                    people = people.OrderBy(s => s.Name);
-                    break;
-            }
-
-            return View(await people.AsNoTracking().ToListAsync());
+            return View(await _context.Person.ToListAsync());
+            //return View(await People.ToListAsync());
         }
 
         [Authorize(Roles = "admin, user")]
