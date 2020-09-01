@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Сотрудники";
 }
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Профиль</a></li>
+            <li class="breadcrumb-item active">Сотрудники</li>
+            <li class="breadcrumb-item"><a asp-controller="Users" asp-action="Index">Пользователи</a></li>
+        </ol>
+    </nav>
 
 <h1>Сотрудники</h1>
 
@@ -10,24 +17,16 @@
     <a asp-action="Create">Добавить</a>
 </p>
 <form asp-action="Index" method="get">
-    @*<div class="form-actions no-color">
-        <p>
-            Поиск по имени или коду: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Поиск" class="btn btn-secondary" /> |
-            <a asp-action="Index">Весь список</a>
-        </p>
-
-    </div>*@
-
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4" name="SearchString" value="@ViewData["CurrentFilter"]" />
+        <input type="text" class="form-control" placeholder="Введите имя или код сотрудника" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4" name="SearchString" value="@ViewData["CurrentFilter"]" />
         <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="submit">Поиск</button>
-            <button class="btn btn-outline-secondary" type="button" asp-action="Index">Весь список</button>
+            @*<button class="btn btn-outline-secondary"><a asp-action="Index" style="text-decoration: none;">Весь список</a></button>*@
+            <a class="btn btn-outline-secondary" asp-action="Index" style="text-decoration: none;">Весь список</a>
         </div>
     </div>
 </form>
-<table class="table">
+<table class="table table-striped print">
     <thead>
         <tr>
             <th>
