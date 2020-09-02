@@ -18,7 +18,7 @@ namespace SigmERP.Models
         public string SocNumber { get; set; }
         [Display(Name = "Дата рождения")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateBirth { get; set; }
         [Display(Name = "Адрес")]
         public string Address { get; set; }
@@ -30,7 +30,7 @@ namespace SigmERP.Models
         public string NumDoc { get; set; }
         [Display(Name = "Дата выдачи")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateDoc { get; set; }
         [Display(Name = "Кем выдан")]
         public string Authority { get; set; }
