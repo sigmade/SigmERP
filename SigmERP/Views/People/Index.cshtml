@@ -1,15 +1,17 @@
-﻿@model IEnumerable<SigmERP.Models.Person>
+﻿@*@model IEnumerable<SigmERP.Models.Person>*@
+
+@model PaginatedList<SigmERP.Models.Person>
 
 @{
     ViewData["Title"] = "Сотрудники";
 }
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Профиль</a></li>
-            <li class="breadcrumb-item active">Сотрудники</li>
-            <li class="breadcrumb-item"><a asp-controller="Users" asp-action="Index">Пользователи</a></li>
-        </ol>
-    </nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Профиль</a></li>
+        <li class="breadcrumb-item active">Сотрудники</li>
+        <li class="breadcrumb-item"><a asp-controller="Users" asp-action="Index">Пользователи</a></li>
+    </ol>
+</nav>
 
 <p>
     <a asp-action="Create" class="btn btn btn-success">+ Добавить</a>
@@ -28,61 +30,82 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">@Html.DisplayNameFor(model => model.Id)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">КОД</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Name)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">ФИО</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TaxNumber)
+                @*@Html.DisplayNameFor(model => model.TaxNumber)*@ИНН
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SocNumber)
+                @*@Html.DisplayNameFor(model => model.SocNumber)*@СНИЛС
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateBirth)
+                @*@Html.DisplayNameFor(model => model.DateBirth)*@Дата рождения
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @*@Html.DisplayNameFor(model => model.Email)*@Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                @*@Html.DisplayNameFor(model => model.Phone)*@Телефон
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <th>
-                @Html.DisplayFor(modelItem => item.Id)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaxNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateBirth)
-            </td>
-            <th>
-                <a href="mailto:@Html.DisplayFor(model => item.Email)">@Html.DisplayFor(model => item.Email)</a>
-            </th>
-            <th>
-                <a href="tel:@Html.DisplayFor(model => item.Phone)">@Html.DisplayFor(model => item.Phone)</a>
-            </th>
-            <td>
-                <div class="btn-group btn-group-sm" role="group" aria-label="...">
-                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Подробно</a>
-                    <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Править</a>
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                </div>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaxNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateBirth)
+                </td>
+                <th>
+                    <a href="mailto:@Html.DisplayFor(model => item.Email)">@Html.DisplayFor(model => item.Email)</a>
+                </th>
+                <th>
+                    <a href="tel:@Html.DisplayFor(model => item.Phone)">@Html.DisplayFor(model => item.Phone)</a>
+                </th>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Подробно</a>
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Править</a>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Предыдущая
+</a>
+@ViewData["PageNumber"]
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Следующая
+</a>

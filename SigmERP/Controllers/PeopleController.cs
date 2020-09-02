@@ -21,10 +21,20 @@ namespace SigmERP.Controllers
 
         // GET: People
         [Authorize(Roles = "admin, user")]
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int? pageNumber, string currentFilter)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["IdSortParm"] = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "id";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["PageNumber"] = pageNumber;
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             ViewData["CurrentFilter"] = searchString;
 
             var people = from s in _context.Person
@@ -50,8 +60,8 @@ namespace SigmERP.Controllers
                     people = people.OrderBy(s => s.Name);
                     break;
             }
-
-            return View(await people.AsNoTracking().ToListAsync()); 
+            int pageSize = 20;
+            return View(await PaginatedList<Person>.CreateAsync(people.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [Authorize(Roles = "admin, user")]
