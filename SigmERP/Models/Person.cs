@@ -44,5 +44,7 @@ namespace SigmERP.Models
         [Display(Name = "Место рождения")]
         public string BirthPlace { get; set; }
 
+      public ICollection<Employee> Employee { get; set; }
+
     }
 }

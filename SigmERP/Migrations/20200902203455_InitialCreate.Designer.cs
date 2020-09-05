@@ -10,7 +10,7 @@ using SigmERP.Models;
 namespace SigmERP.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200901113128_InitialCreate")]
+    [Migration("20200902203455_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,33 @@ namespace SigmERP.Migrations
                 .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SigmERP.Models.Employee", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PersonId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Rate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WorkplaceId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Employee");
+                });
 
             modelBuilder.Entity("SigmERP.Models.Person", b =>
                 {
@@ -133,6 +160,13 @@ namespace SigmERP.Migrations
                             Password = "123456",
                             RoleId = 1
                         });
+                });
+
+            modelBuilder.Entity("SigmERP.Models.Employee", b =>
+                {
+                    b.HasOne("SigmERP.Models.Person", "Person")
+                        .WithMany("Employee")
+                        .HasForeignKey("PersonId");
                 });
 
             modelBuilder.Entity("SigmERP.Models.User", b =>

@@ -34,5 +34,6 @@ namespace SigmERP.Models
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<SigmERP.Models.Person> Person { get; set; }
+        public DbSet<SigmERP.Models.Employee> Employee { get; set; }
     }
 }
