@@ -26,8 +26,8 @@ namespace SigmERP
 
             public void ConfigureServices(IServiceCollection services)
             {
-                string connection = "Server=(localdb)\\mssqllocaldb;Database=ErpDB;Trusted_Connection=True;";
-                services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+                
+                services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
                 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
