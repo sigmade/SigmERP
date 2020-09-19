@@ -5,14 +5,7 @@
 @{
     ViewData["Title"] = "Сотрудники";
 }
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Профиль</a></li>
-        <li class="breadcrumb-item"><a asp-controller="Users" asp-action="Index">Пользователи</a></li>
-        <li class="breadcrumb-item active">Сотрудники</li>
-        <li class="breadcrumb-item"><a asp-controller="Employees" asp-action="Index">Приемы на работу</a></li>
-    </ol>
-</nav>
+
 <ul class="nav nav-tabs m-3">
     <li class="nav-item">
         <a class="nav-link" asp-action="Create">Добавить</a>
@@ -50,7 +43,7 @@
                 @*<a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">КОД</a>*@КОД
             </th>
             <th>
-                @*<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">ФИО</a>*@ФИО
+               @*<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">ФИО</a>*@ФИО
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.DateBirth)*@Дата рождения
@@ -72,7 +65,8 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </th>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <div style="cursor: help;" data-toggle="tooltip" data-html="true" title="ИНН:@Html.DisplayFor(modelItem => item.TaxNumber) СНИЛС: @Html.DisplayFor(modelItem => item.SocNumber)"> @Html.DisplayFor(modelItem => item.Name)
+                    </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateBirth)

@@ -3,18 +3,10 @@
     ViewData["Title"] = "Профиль";
 }
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item active">Профиль</li>
-        <li class="breadcrumb-item"><a asp-controller="Users" asp-action="Index">Пользователи</a></li>
-        <li class="breadcrumb-item"><a asp-controller="People" asp-action="Index">Сотрудники</a></li>
-        <li class="breadcrumb-item"><a asp-controller="Employees" asp-action="Index">Приемы на работу</a></li>
-    </ol>
-</nav>
-
-<h1>Профиль</h1>
-
-
-
-<p>Вы авторизованы в системе</p>
-<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><button class="btn btn-success">@ViewData["Message_btn"]</button></a>
+<div class="jumbotron">
+    <h1 class="display-4">SigmERP System</h1>
+    <p class="lead">Вы авторизованы в системе</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><button class="btn btn-success">@ViewData["Message_btn"]</button></a>
+</div>
