@@ -9,29 +9,22 @@ using SigmERP.Models;
 
 namespace SigmERP.Controllers
 {
-    public class EmployeesController : Controller
+    public class WorkplacesController : Controller
     {
         private readonly ApplicationContext _context;
 
-        public EmployeesController(ApplicationContext context)
+        public WorkplacesController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Employees
+        // GET: Workplaces
         public async Task<IActionResult> Index()
         {
-            //var applicationContext = _context.Employee.Include(e => e.Person);
-            //return View(await applicationContext.ToListAsync());
-
-            var employees = _context.Employee
-                .Include(c => c.Person)
-                .Include(d => d.Workplace)
-                .AsNoTracking();
-            return View(await employees.ToListAsync());
+            return View(await _context.Workplaces.ToListAsync());
         }
 
-        // GET: Employees/Details/5
+        // GET: Workplaces/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -39,42 +32,39 @@ namespace SigmERP.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee
-                .Include(e => e.Person)
+            var workplace = await _context.Workplaces
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (workplace == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(workplace);
         }
 
-        // GET: Employees/Create
+        // GET: Workplaces/Create
         public IActionResult Create()
         {
-            ViewData["PersonId"] = new SelectList(_context.Person, "Id", "Name");
-            ViewData["WorkplaceId"] = new SelectList(_context.Workplaces, "Id", "Name");
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: Workplaces/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PersonId,StartDate,ExpirationDate,WorkplaceId,Rate")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Workplace workplace)
         {
-            
-            _context.Add(employee);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            ViewData["PersonId"] = new SelectList(_context.Person, "Id", "Name", employee.PersonId);
-            ViewData["WorkplaceId"] = new SelectList(_context.Workplaces, "Id", "Name", employee.WorkplaceId);
-            return View(employee);
+            if (ModelState.IsValid)
+            {
+                _context.Add(workplace);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(workplace);
         }
 
-        // GET: Employees/Edit/5
+        // GET: Workplaces/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -82,23 +72,22 @@ namespace SigmERP.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee.FindAsync(id);
-            if (employee == null)
+            var workplace = await _context.Workplaces.FindAsync(id);
+            if (workplace == null)
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_context.Person, "Id", "Id", employee.PersonId);
-            return View(employee);
+            return View(workplace);
         }
 
-        // POST: Employees/Edit/5
+        // POST: Workplaces/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,PersonId,StartDate,ExpirationDate,WorkplaceId,Rate")] Employee employee)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Workplace workplace)
         {
-            if (id != employee.Id)
+            if (id != workplace.Id)
             {
                 return NotFound();
             }
@@ -107,12 +96,12 @@ namespace SigmERP.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(workplace);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (!WorkplaceExists(workplace.Id))
                     {
                         return NotFound();
                     }
@@ -123,11 +112,10 @@ namespace SigmERP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PersonId"] = new SelectList(_context.Person, "Id", "Id", employee.PersonId);
-            return View(employee);
+            return View(workplace);
         }
 
-        // GET: Employees/Delete/5
+        // GET: Workplaces/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -135,31 +123,30 @@ namespace SigmERP.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employee
-                .Include(e => e.Person)
+            var workplace = await _context.Workplaces
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (workplace == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(workplace);
         }
 
-        // POST: Employees/Delete/5
+        // POST: Workplaces/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var employee = await _context.Employee.FindAsync(id);
-            _context.Employee.Remove(employee);
+            var workplace = await _context.Workplaces.FindAsync(id);
+            _context.Workplaces.Remove(workplace);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(string id)
+        private bool WorkplaceExists(string id)
         {
-            return _context.Employee.Any(e => e.Id == id);
+            return _context.Workplaces.Any(e => e.Id == id);
         }
     }
 }

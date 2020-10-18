@@ -15,23 +15,14 @@
         <div class="dropdown-menu">
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">По ID</a>
             <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">По ФИО</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
         </div>
     </li>
-    @*<li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-    </li>*@
 </ul>
 <form asp-action="Index" method="get">
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Введите имя или код сотрудника" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4" name="SearchString" value="@ViewData["CurrentFilter"]" />
         <div class="input-group-append" id="button-addon4">
             <button class="btn btn-outline-secondary" type="submit">Поиск</button>
-            @*<button class="btn btn-outline-secondary"><a asp-action="Index" style="text-decoration: none;">Весь список</a></button>*@
             <a class="btn btn-outline-secondary" asp-action="Index" style="text-decoration: none;">Весь список</a>
         </div>
     </div>
@@ -40,19 +31,19 @@
     <thead>
         <tr>
             <th>
-                @*<a asp-action="Index" asp-route-sortOrder="@ViewData["IdSortParm"]">КОД</a>*@КОД
+               КОД
             </th>
             <th>
-               @*<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">ФИО</a>*@ФИО
+               ФИО
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.DateBirth)*@Дата рождения
+               Дата рождения
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Email)*@Email
+                Email
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Phone)*@Телефон
+                Телефон
             </th>
             <th></th>
         </tr>
@@ -96,11 +87,6 @@
                             </ul>
                         </div>
                     </nav>
-                    @*<div class="btn-group btn-group-sm" role="group" aria-label="...">
-                        <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Подробно</a>
-                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">Править</a>
-                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                    </div>*@
                 </td>
             </tr>
         }
@@ -133,19 +119,3 @@
         </li>
     </ul>
 </nav>
-
-@*<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
-    Предыдущая
-</a>
-@ViewData["PageNumber"]
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
-    Следующая
-</a>*@

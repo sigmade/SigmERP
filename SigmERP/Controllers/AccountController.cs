@@ -17,10 +17,6 @@ namespace SigmERP.Controllers
             _context = context;
         }
         [HttpGet]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -30,7 +26,6 @@ namespace SigmERP.Controllers
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
                     user = new User { Email = model.Email, Password = model.Password };
                     Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole != null)
@@ -39,7 +34,7 @@ namespace SigmERP.Controllers
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
 
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user); 
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -64,7 +59,7 @@ namespace SigmERP.Controllers
                     .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user); 
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,16 +69,15 @@ namespace SigmERP.Controllers
         }
         private async Task Authenticate(User user)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
-            // создаем объект ClaimsIdentity
+
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+            
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
